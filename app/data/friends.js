@@ -46,7 +46,38 @@ var friends = [
             3,
             3
         ]
-	},
+  },
+  {
+		"name": "Mac",
+		"photo": "https://vignette3.wikia.nocookie.net/itsalwayssunny/images/5/5f/Mac_-_Season_8.jpg",
+		"scores": [
+      3,
+      1,
+      3,
+      5,
+      2,
+      3,
+      2,
+      2,
+      5,
+      5
+    ]
+  },
+  {
+		"name": "Frank",
+		"photo": "https://vignette3.wikia.nocookie.net/itsalwayssunny/images/f/fe/Season_7_-_Frank.jpg",
+		"scores": [
+      3,
+      1,
+      4,
+      4,
+      2,
+      4,
+      2,
+      5,
+      1,
+      3]
+	}
 ];
 
 module.exports = friends;
