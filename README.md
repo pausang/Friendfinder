@@ -1,6 +1,6 @@
 # Friendfinder
 
-![slt text](screen.png)
+![slt text](friend.png)
 
 https://git.heroku.com/pacific-headland-29200.git
 
