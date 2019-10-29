@@ -2,93 +2,93 @@
 
 ![slt text](friend.png)
 
-https://git.heroku.com/pacific-headland-29200.git
-
-https://pure-basin-22018.herokuapp.com/
 
 
-# Friend Finder - Node and Express Servers
 
-### Overview
+## The node.js example app
 
-In this activity, you'll build a compatibility-based "FriendFinder" application -- basically a dating app. This full-stack site will take in results from your users' surveys, then compare their answers with those from other users. The app will then display the name and picture of the user with the best overall match.
+[![CircleCI](https://img.shields.io/circleci/project/github/contentful/the-example-app.nodejs.svg)](https://circleci.com/gh/contentful/the-example-app.nodejs)
 
-You will use Express to handle routing. 
+The node.js example app teaches the very basics of how to work with Contentful:
 
+- consume content from the Contentful Delivery and Preview APIs
+- model content
+- edit content through the Contentful web app
 
-### Before 
+The app demonstrates how decoupling content from its presentation enables greater flexibility and facilitates shipping higher quality software more quickly.
 
-* Create a folder called `FriendFinder`. Inside the folder, organize your directories so it matches the following:
+<a href="https://the-example-app-nodejs.herokuapp.com/" target="_blank"><img src="https://images.contentful.com/qz0n5cdakyl9/4GZmvrdodGM6CksMCkkAEq/700a527b8203d4d3ccd3c303c5b3e2aa/the-example-app.png" alt="Screenshot of the example app"/></a>
 
-  ```
-  FriendFinder
-    - .gitignore
-    - app
-      - data
-        - friends.js
-      - public
-        - home.html
-        - survey.html
-      - routing
-        - apiRoutes.js
-        - htmlRoutes.js
-    - node_modules
-    - package.json
-    - server.js
-  ```
+You can see a hosted version of `The node.js example app` on <a href="https://the-example-app-nodejs.contentful.com/" target="_blank">Heroku</a>.
 
+## What is Contentful?
 
-### Instructions
+[Contentful](https://www.contentful.com) provides a content infrastructure for digital teams to power content in websites, apps, and devices. Unlike a CMS, Contentful was built to integrate with the modern software stack. It offers a central hub for structured content, powerful management and delivery APIs, and a customizable web app that enable developers and content creators to ship digital products faster.
 
-1. Your survey should have 10 questions of your choosing. Each answer should be on a scale of 1 to 5 based on how much the user agrees or disagrees with a question.
+## Requirements
 
-2. Your `server.js` file should require the basic npm packages we've used in class: `express` and `path`.
+* Node 8
+* Git
+* Contentful CLI (only for write access)
 
-3. Your `htmlRoutes.js` file should include two routes:
+Without any changes, this app is connected to a Contentful space with read-only access. To experience the full end-to-end Contentful experience, you need to connect the app to a Contentful space with read _and_ write access. This enables you to see how content editing in the Contentful web app works and how content changes propagate to this app.
 
-   * A GET Route to `/survey` which should display the survey page.
-   * A default, catch-all route that leads to `home.html` which displays the home page.
+## Common setup
 
-4. Your `apiRoutes.js` file should contain two routes:
+Clone the repo and install the dependencies.
 
-   * A GET route with the url `/api/friends`. This will be used to display a JSON of all possible friends.
-   * A POST routes `/api/friends`. This will be used to handle incoming survey results. This route will also be used to handle the compatibility logic.
-
-5. You should save your application's data inside of `app/data/friends.js` as an array of objects. Each of these objects should roughly follow the format below.
-
-```json
-{
-  "name":"Ahmed",
-  "photo":"https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/6/005/064/1bd/3435aa3.jpg",
-  "scores":[
-      5,
-      1,
-      4,
-      4,
-      5,
-      1,
-      2,
-      5,
-      4,
-      1
-    ]
-}
+```bash
+git clone https://github.com/contentful/the-example-app.nodejs.git
+cd the-example-app.nodejs
 ```
 
-6. Determine the user's most compatible friend using the following as a guide:
+```bash
+npm install
+```
 
-   * Convert each user's results into a simple array of numbers (ex: `[5, 1, 4, 4, 5, 1, 2, 5, 4, 1]`).
-   * With that done, compare the difference between current user's scores against those from other users, question by question. Add up the differences to calculate the `totalDifference`.
-     * Example:
-       * User 1: `[5, 1, 4, 4, 5, 1, 2, 5, 4, 1]`
-       * User 2: `[3, 2, 6, 4, 5, 1, 2, 5, 4, 1]`
-       * Total Difference: **2 + 1 + 2 =** **_5_**
-   * Remember to use the absolute value of the differences. Put another way: no negative solutions! Your app should calculate both `5-3` and `3-5` as `2`, and so on.
-   * The closest match will be the user with the least amount of difference.
+## Steps for read-only access
 
-7. Once you've found the current user's most compatible friend, display the result as a modal pop-up.
-   * The modal should display both the name and picture of the closest match.
+To start the express server, run the following
 
+```bash
+npm run start:dev
+```
 
+Open [http://localhost:3000](http://localhost:3000) and take a look around.
 
 
+## Steps for read and write access (recommended)
+
+Step 1: Install the [Contentful CLI](https://www.npmjs.com/package/contentful-cli)
+
+Step 2: Login to Contentful through the CLI. It will help you to create a [free account](https://www.contentful.com/sign-up/) if you don't have one already.
+```
+contentful login
+```
+Step 3: Create a new space
+```
+contentful space create --name 'My space for the example app'
+```
+Step 4: [Seed](https://github.com/contentful/contentful-cli/tree/master/docs/space/seed) the new space with the example content model [`the-example-app`](https://github.com/contentful/content-models/tree/master/the-example-app). Replace the `SPACE_ID` with the id returned from the create command executed in step 3
+```
+contentful space seed -s '<SPACE_ID>' -t the-example-app
+```
+Step 5: Head to the Contentful web app's API section and grab `SPACE_ID`, `DELIVERY_ACCESS_TOKEN`, `PREVIEW_ACCESS_TOKEN`.
+
+Step 6: Open `variables.env` and inject your credentials so it looks like this
+
+```
+NODE_ENV=development
+CONTENTFUL_SPACE_ID=<SPACE_ID>
+CONTENTFUL_DELIVERY_TOKEN=<DELIVERY_ACCESS_TOKEN>
+CONTENTFUL_PREVIEW_TOKEN=<PREVIEW_ACCESS_TOKEN>
+PORT=3000
+```
+
+Step 7: To start the express server, run the following
+```bash
+npm run start:dev
+```
+Final Step:
+
+Open [http://localhost:3000?editorial_features=enabled](http://localhost:3000?editorial_features=enabled) and take a look around. This URL flag adds an “Edit” button in the app on every editable piece of content which will take you back to Contentful web app where you can make changes. It also adds “Draft” and “Pending Changes” status indicators to all content if relevant.
